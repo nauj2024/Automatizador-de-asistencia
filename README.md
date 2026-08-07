@@ -1,4 +1,4 @@
-# 🎵 Automatizador de Asistencia - Ensamble The Crumbs
+# Automatizador de Asistencia - Ensamble The Crumbs
 
 ## ¿Qué hace este programa?
 
@@ -22,7 +22,7 @@ Crea un archivo llamado **`formato.xlsx`** con esta estructura:
 | Fila 4 | 08-20/05 | Auditorio CyT | Capacitación PGP | Si | micorreo@unal.edu.co | 1010100110 |
 | Fila 5 | 15/05 | Salon 208 CyT | Taller | No | micorreo@unal.edu.co | 1010100110 |
 
-**⚠️ MUY IMPORTANTE — Celda E2:**
+** MUY IMPORTANTE — Celda E2:**
 - **E2 debe contener TU NOMBRE** (ejemplo: "Daniel Alfonso", "Felipe Gutierrez", etc.)
 - El programa lee tu nombre de ahí y lo usa en el log
 
@@ -40,7 +40,7 @@ Si falta algún dato, **el programa te lo va a indicar y no enviará nada** hast
 
 ---
 
-## 🔧 Paso 2: Instalar requisitos
+## Paso 2: Instalar requisitos
 
 ### En Windows (PowerShell):
 ```powershell
@@ -54,7 +54,7 @@ pip3 install openpyxl selenium webdriver-manager
 
 ---
 
-## ▶️ Paso 3: Ejecutar el programa
+## Paso 3: Ejecutar el programa
 
 ### Copia estos archivos en **la misma carpeta**:
 - `enviar_asistencia.py` (el script)
@@ -74,16 +74,16 @@ python3 enviar_asistencia.py "https://docs.google.com/forms/d/e/1FAIpQLSc...../v
 
 ---
 
-## 📊 ¿Qué pasa cuando ejecutas?
+## ¿Qué pasa cuando ejecutas?
 
 El programa:
 
-1. **📁 Lee tu Excel** → Busca registros donde `Nombre_Estudiante = Sí`
-2. **🔍 Valida datos** → Verifica que todos los campos sean correctos
-3. **🌐 Abre el navegador** → Chrome se abre automáticamente (en segundo plano)
-4. **📝 Completa el Forms** → Llena cada campo del formulario
-5. **📤 Envía cada registro** → Un registro por sesión
-6. **📄 Genera un log** → Crea `asistencia_log.txt` con los resultados
+1. ** Lee tu Excel** → Busca registros donde `Nombre_Estudiante = Sí`
+2. ** Valida datos** → Verifica que todos los campos sean correctos
+3. ** Abre el navegador** → Chrome se abre automáticamente (en segundo plano)
+4. ** Completa el Forms** → Llena cada campo del formulario
+5. ** Envía cada registro** → Un registro por sesión
+6. ** Genera un log** → Crea `asistencia_log.txt` con los resultados
 
 **Ejemplo de salida:**
 
@@ -121,34 +121,34 @@ RESUMEN FINAL
 
 ---
 
-## 🐛 Solución de problemas
+## Solución de problemas
 
-### ❌ "No se encontró: formato.xlsx"
+### "No se encontró: formato.xlsx"
 **Solución:** Asegúrate que el archivo `formato.xlsx` esté en la **misma carpeta** que el script.
 
-### ❌ "Error al iniciar Chrome"
+### "Error al iniciar Chrome"
 **Solución:** 
 1. Instala Chrome desde https://www.google.com/chrome
 2. O ejecuta: `pip install webdriver-manager`
 
-### ❌ "Correo inválido (debe ser @unal.edu.co)"
+### "Correo inválido (debe ser @unal.edu.co)"
 **Solución:** Tu correo debe terminar en `@unal.edu.co`, no otro dominio.
 
-### ❌ "Documento debe ser numérico"
+### "Documento debe ser numérico"
 **Solución:** El documento no puede tener puntos ni comas. Usa solo números: `1010100110`
 
-### ❌ "Fecha vacía" o "Formato de fecha inválido"
+### "Fecha vacía" o "Formato de fecha inválido"
 **Solución:** La fecha debe ser:
 - `08/05` (día/mes)
 - `08/05/2026` (día/mes/año)
 - NO válido: `2026-05-08`
 
-### ⚠️ El navegador se abre pero no llena nada
+### El navegador se abre pero no llena nada
 **Solución:** El Forms tiene una estructura diferente a la esperada. Avisa al coordinador.
 
 ---
 
-## 📞 Ayuda
+## Ayuda
 
 Si algo no funciona:
 1. **Revisa el archivo `asistencia_log.txt`** → Busca el error específico
@@ -157,7 +157,7 @@ Si algo no funciona:
 
 ---
 
-## ⚡ Tips
+## Tips
 
 - ✅ Llena el Excel en orden: Fecha → Lugar → Evento → Sí/No → Correo → Documento
 - ✅ Si solo asisten en algunas sesiones, **marca las otras con "No"** (no serán enviadas)
