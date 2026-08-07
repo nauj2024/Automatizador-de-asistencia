@@ -1,0 +1,196 @@
+============================================================
+LOG DE ENVÍO - ASISTENCIA A REUNIONES
+Fecha: 07/08/2026 13:19:22
+============================================================
+
+Estudiante: Daniel Alfonso
+Proyecto: Ensamble The Crumbs
+Tipo de usuario: Estudiante de pregrado
+
+Registros enviados: 0
+Registros fallidos: 8
+Total procesado: 8
+
+ERRORES:
+  - Fila 3: Message: 
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff6be6a29c5+2ed785]
+	chromedriver!GetHandleVerifier [0x7ff6be3ca0d0+14e90]
+	chromedriver!(No symbol) [0x7ff6be12db2d]
+	chromedriver!(No symbol) [0x7ff6be186b9e]
+	chromedriver!(No symbol) [0x7ff6be186eac]
+	chromedriver!(No symbol) [0x7ff6be1d6fe7]
+	chromedriver!(No symbol) [0x7ff6be1d3b9b]
+	chromedriver!(No symbol) [0x7ff6be179298]
+	chromedriver!(No symbol) [0x7ff6be17a183]
+	chromedriver!GetHandleVerifier [0x7ff6be6cde0d+318bcd]
+	chromedriver!GetHandleVerifier [0x7ff6be6c8588+313348]
+	chromedriver!GetHandleVerifier [0x7ff6be6e9d7a+334b3a]
+	chromedriver!GetHandleVerifier [0x7ff6be3e6785+31545]
+	chromedriver!GetHandleVerifier [0x7ff6be3efacc+3a88c]
+	chromedriver!GetHandleVerifier [0x7ff6be3d3634+1e3f4]
+	chromedriver!GetHandleVerifier [0x7ff6be3d37e6+1e5a6]
+	chromedriver!GetHandleVerifier [0x7ff6be3b7e37+2bf7]
+	KERNEL32!BaseThreadInitThunk [0x7ffe3bfde957+17]
+	ntdll!RtlUserThreadStart [0x7ffe3d8ead6c+2c]
+
+  - Fila 4: Message: 
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff6be6a29c5+2ed785]
+	chromedriver!GetHandleVerifier [0x7ff6be3ca0d0+14e90]
+	chromedriver!(No symbol) [0x7ff6be12db2d]
+	chromedriver!(No symbol) [0x7ff6be186b9e]
+	chromedriver!(No symbol) [0x7ff6be186eac]
+	chromedriver!(No symbol) [0x7ff6be1d6fe7]
+	chromedriver!(No symbol) [0x7ff6be1d3b9b]
+	chromedriver!(No symbol) [0x7ff6be179298]
+	chromedriver!(No symbol) [0x7ff6be17a183]
+	chromedriver!GetHandleVerifier [0x7ff6be6cde0d+318bcd]
+	chromedriver!GetHandleVerifier [0x7ff6be6c8588+313348]
+	chromedriver!GetHandleVerifier [0x7ff6be6e9d7a+334b3a]
+	chromedriver!GetHandleVerifier [0x7ff6be3e6785+31545]
+	chromedriver!GetHandleVerifier [0x7ff6be3efacc+3a88c]
+	chromedriver!GetHandleVerifier [0x7ff6be3d3634+1e3f4]
+	chromedriver!GetHandleVerifier [0x7ff6be3d37e6+1e5a6]
+	chromedriver!GetHandleVerifier [0x7ff6be3b7e37+2bf7]
+	KERNEL32!BaseThreadInitThunk [0x7ffe3bfde957+17]
+	ntdll!RtlUserThreadStart [0x7ffe3d8ead6c+2c]
+
+  - Fila 6: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=146.0.7680.165)
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff6be6a29c5+2ed785]
+	chromedriver!GetHandleVerifier [0x7ff6be3ca0d0+14e90]
+	chromedriver!(No symbol) [0x7ff6be12db2d]
+	chromedriver!(No symbol) [0x7ff6be104322]
+	chromedriver!(No symbol) [0x7ff6be1b6e86]
+	chromedriver!(No symbol) [0x7ff6be1d3482]
+	chromedriver!(No symbol) [0x7ff6be179298]
+	chromedriver!(No symbol) [0x7ff6be17a183]
+	chromedriver!GetHandleVerifier [0x7ff6be6cde0d+318bcd]
+	chromedriver!GetHandleVerifier [0x7ff6be6c8588+313348]
+	chromedriver!GetHandleVerifier [0x7ff6be6e9d7a+334b3a]
+	chromedriver!GetHandleVerifier [0x7ff6be3e6785+31545]
+	chromedriver!GetHandleVerifier [0x7ff6be3efacc+3a88c]
+	chromedriver!GetHandleVerifier [0x7ff6be3d3634+1e3f4]
+	chromedriver!GetHandleVerifier [0x7ff6be3d37e6+1e5a6]
+	chromedriver!GetHandleVerifier [0x7ff6be3b7e37+2bf7]
+	KERNEL32!BaseThreadInitThunk [0x7ffe3bfde957+17]
+	ntdll!RtlUserThreadStart [0x7ffe3d8ead6c+2c]
+
+  - Fila 8: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=146.0.7680.165)
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff6be6a29c5+2ed785]
+	chromedriver!GetHandleVerifier [0x7ff6be3ca0d0+14e90]
+	chromedriver!(No symbol) [0x7ff6be12db2d]
+	chromedriver!(No symbol) [0x7ff6be104322]
+	chromedriver!(No symbol) [0x7ff6be1b6e86]
+	chromedriver!(No symbol) [0x7ff6be1d3482]
+	chromedriver!(No symbol) [0x7ff6be179298]
+	chromedriver!(No symbol) [0x7ff6be17a183]
+	chromedriver!GetHandleVerifier [0x7ff6be6cde0d+318bcd]
+	chromedriver!GetHandleVerifier [0x7ff6be6c8588+313348]
+	chromedriver!GetHandleVerifier [0x7ff6be6e9d7a+334b3a]
+	chromedriver!GetHandleVerifier [0x7ff6be3e6785+31545]
+	chromedriver!GetHandleVerifier [0x7ff6be3efacc+3a88c]
+	chromedriver!GetHandleVerifier [0x7ff6be3d3634+1e3f4]
+	chromedriver!GetHandleVerifier [0x7ff6be3d37e6+1e5a6]
+	chromedriver!GetHandleVerifier [0x7ff6be3b7e37+2bf7]
+	KERNEL32!BaseThreadInitThunk [0x7ffe3bfde957+17]
+	ntdll!RtlUserThreadStart [0x7ffe3d8ead6c+2c]
+
+  - Fila 9: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=146.0.7680.165)
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff6be6a29c5+2ed785]
+	chromedriver!GetHandleVerifier [0x7ff6be3ca0d0+14e90]
+	chromedriver!(No symbol) [0x7ff6be12db2d]
+	chromedriver!(No symbol) [0x7ff6be104322]
+	chromedriver!(No symbol) [0x7ff6be1b6e86]
+	chromedriver!(No symbol) [0x7ff6be1d3482]
+	chromedriver!(No symbol) [0x7ff6be179298]
+	chromedriver!(No symbol) [0x7ff6be17a183]
+	chromedriver!GetHandleVerifier [0x7ff6be6cde0d+318bcd]
+	chromedriver!GetHandleVerifier [0x7ff6be6c8588+313348]
+	chromedriver!GetHandleVerifier [0x7ff6be6e9d7a+334b3a]
+	chromedriver!GetHandleVerifier [0x7ff6be3e6785+31545]
+	chromedriver!GetHandleVerifier [0x7ff6be3efacc+3a88c]
+	chromedriver!GetHandleVerifier [0x7ff6be3d3634+1e3f4]
+	chromedriver!GetHandleVerifier [0x7ff6be3d37e6+1e5a6]
+	chromedriver!GetHandleVerifier [0x7ff6be3b7e37+2bf7]
+	KERNEL32!BaseThreadInitThunk [0x7ffe3bfde957+17]
+	ntdll!RtlUserThreadStart [0x7ffe3d8ead6c+2c]
+
+  - Fila 10: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=146.0.7680.165)
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff6be6a29c5+2ed785]
+	chromedriver!GetHandleVerifier [0x7ff6be3ca0d0+14e90]
+	chromedriver!(No symbol) [0x7ff6be12db2d]
+	chromedriver!(No symbol) [0x7ff6be104322]
+	chromedriver!(No symbol) [0x7ff6be1b6e86]
+	chromedriver!(No symbol) [0x7ff6be1d3482]
+	chromedriver!(No symbol) [0x7ff6be179298]
+	chromedriver!(No symbol) [0x7ff6be17a183]
+	chromedriver!GetHandleVerifier [0x7ff6be6cde0d+318bcd]
+	chromedriver!GetHandleVerifier [0x7ff6be6c8588+313348]
+	chromedriver!GetHandleVerifier [0x7ff6be6e9d7a+334b3a]
+	chromedriver!GetHandleVerifier [0x7ff6be3e6785+31545]
+	chromedriver!GetHandleVerifier [0x7ff6be3efacc+3a88c]
+	chromedriver!GetHandleVerifier [0x7ff6be3d3634+1e3f4]
+	chromedriver!GetHandleVerifier [0x7ff6be3d37e6+1e5a6]
+	chromedriver!GetHandleVerifier [0x7ff6be3b7e37+2bf7]
+	KERNEL32!BaseThreadInitThunk [0x7ffe3bfde957+17]
+	ntdll!RtlUserThreadStart [0x7ffe3d8ead6c+2c]
+
+  - Fila 12: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=146.0.7680.165)
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff6be6a29c5+2ed785]
+	chromedriver!GetHandleVerifier [0x7ff6be3ca0d0+14e90]
+	chromedriver!(No symbol) [0x7ff6be12db2d]
+	chromedriver!(No symbol) [0x7ff6be104322]
+	chromedriver!(No symbol) [0x7ff6be1b6e86]
+	chromedriver!(No symbol) [0x7ff6be1d3482]
+	chromedriver!(No symbol) [0x7ff6be179298]
+	chromedriver!(No symbol) [0x7ff6be17a183]
+	chromedriver!GetHandleVerifier [0x7ff6be6cde0d+318bcd]
+	chromedriver!GetHandleVerifier [0x7ff6be6c8588+313348]
+	chromedriver!GetHandleVerifier [0x7ff6be6e9d7a+334b3a]
+	chromedriver!GetHandleVerifier [0x7ff6be3e6785+31545]
+	chromedriver!GetHandleVerifier [0x7ff6be3efacc+3a88c]
+	chromedriver!GetHandleVerifier [0x7ff6be3d3634+1e3f4]
+	chromedriver!GetHandleVerifier [0x7ff6be3d37e6+1e5a6]
+	chromedriver!GetHandleVerifier [0x7ff6be3b7e37+2bf7]
+	KERNEL32!BaseThreadInitThunk [0x7ffe3bfde957+17]
+	ntdll!RtlUserThreadStart [0x7ffe3d8ead6c+2c]
+
+  - Fila 13: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=146.0.7680.165)
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff6be6a29c5+2ed785]
+	chromedriver!GetHandleVerifier [0x7ff6be3ca0d0+14e90]
+	chromedriver!(No symbol) [0x7ff6be12db2d]
+	chromedriver!(No symbol) [0x7ff6be104322]
+	chromedriver!(No symbol) [0x7ff6be1b6e86]
+	chromedriver!(No symbol) [0x7ff6be1d3482]
+	chromedriver!(No symbol) [0x7ff6be179298]
+	chromedriver!(No symbol) [0x7ff6be17a183]
+	chromedriver!GetHandleVerifier [0x7ff6be6cde0d+318bcd]
+	chromedriver!GetHandleVerifier [0x7ff6be6c8588+313348]
+	chromedriver!GetHandleVerifier [0x7ff6be6e9d7a+334b3a]
+	chromedriver!GetHandleVerifier [0x7ff6be3e6785+31545]
+	chromedriver!GetHandleVerifier [0x7ff6be3efacc+3a88c]
+	chromedriver!GetHandleVerifier [0x7ff6be3d3634+1e3f4]
+	chromedriver!GetHandleVerifier [0x7ff6be3d37e6+1e5a6]
+	chromedriver!GetHandleVerifier [0x7ff6be3b7e37+2bf7]
+	KERNEL32!BaseThreadInitThunk [0x7ffe3bfde957+17]
+	ntdll!RtlUserThreadStart [0x7ffe3d8ead6c+2c]
+

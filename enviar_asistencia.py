@@ -5,9 +5,6 @@ Ensamble de música - Proyectos Estudiantiles PGP 2026
 
 Uso:
     python3 enviar_asistencia.py <URL_FORMS>
-
-Ejemplo:
-    python3 enviar_asistencia.py "https://docs.google.com/forms/d/e/1FAIpQL.../viewform"
 """
 
 import sys
@@ -18,7 +15,7 @@ from pathlib import Path
 from openpyxl import load_workbook
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait, Select
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 import time
@@ -34,11 +31,9 @@ class ValidadorDatos:
     
     @staticmethod
     def validar_fecha(fecha_str):
-        """Valida que la fecha sea válida. Formato: DD/MM"""
         if not fecha_str:
             return False, "Fecha vacía"
         
-        # Intenta parsear diferentes formatos
         formatos = ["%d/%m", "%d/%m/%Y", "%Y-%m-%d"]
         for fmt in formatos:
             try:
@@ -51,7 +46,6 @@ class ValidadorDatos:
     
     @staticmethod
     def validar_correo(correo):
-        """Valida que el correo tenga formato @unal.edu.co"""
         if not correo:
             return False, "Correo vacío"
         
@@ -63,7 +57,6 @@ class ValidadorDatos:
     
     @staticmethod
     def validar_documento(doc):
-        """Valida que el documento sea numérico"""
         if not doc:
             return False, "Documento vacío"
         
@@ -74,7 +67,6 @@ class ValidadorDatos:
     
     @staticmethod
     def validar_texto(texto, campo_nombre):
-        """Valida que el campo de texto no esté vacío"""
         if not texto or (isinstance(texto, str) and not texto.strip()):
             return False, f"{campo_nombre} vacío"
         return True, None
@@ -92,18 +84,15 @@ class LectorExcel:
         self.leer()
     
     def leer(self):
-        """Lee el Excel y extrae datos válidos"""
         wb = load_workbook(self.ruta)
         ws = wb.active
         
-        # Lee el nombre del estudiante de E2
         nombre_cell = ws['E2']
         if not nombre_cell.value:
             raise ValueError("❌ La casilla E2 está vacía. Debe contener el nombre del estudiante.")
         
         self.nombre_estudiante = str(nombre_cell.value).strip()
         
-        # Encuentra headers en fila 2
         headers = {}
         for col_idx, cell in enumerate(ws[2], 1):
             if cell.value:
@@ -112,15 +101,13 @@ class LectorExcel:
         if not all(h in headers for h in ["Fecha", "Lugar", "Nombre del Evento", "Correo"]):
             raise ValueError("Excel debe tener columnas: Fecha, Lugar, Nombre del Evento, Correo")
         
-        # Obtiene las posiciones de las columnas
         col_fecha = headers["Fecha"]
         col_lugar = headers["Lugar"]
         col_evento = headers["Nombre del Evento"]
-        col_asistencia = 5  # Columna E siempre es la de asistencia
+        col_asistencia = 5  # Columna E
         col_correo = headers["Correo"]
         col_documento = headers.get("Documento", None)
         
-        # Lee datos desde fila 3
         for row_idx in range(3, ws.max_row + 1):
             fecha = ws.cell(row_idx, col_fecha).value
             lugar = ws.cell(row_idx, col_lugar).value
@@ -129,7 +116,6 @@ class LectorExcel:
             correo = ws.cell(row_idx, col_correo).value
             doc = ws.cell(row_idx, col_documento).value if col_documento else None
             
-            # Solo procesa si asistió = "Sí"
             if asistio and str(asistio).strip().lower() == "si":
                 self.datos.append({
                     "fecha": fecha,
@@ -147,7 +133,7 @@ class LectorExcel:
         return self.datos
 
 class AutomatizadorForms:
-    """Automatiza el envío al Google Forms con Selenium"""
+    """Automatiza el envío al Google Forms con Selenium adaptado para formularios multisección"""
     
     def __init__(self, url_forms):
         self.url_forms = url_forms
@@ -158,9 +144,7 @@ class AutomatizadorForms:
         self._iniciar_driver()
     
     def _iniciar_driver(self):
-        """Inicia el driver de Chrome en modo headless"""
         chrome_options = ChromeOptions()
-        #chrome_options.add_argument("--headless")
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--disable-gpu")
@@ -174,141 +158,126 @@ class AutomatizadorForms:
             print("   Instala: pip install webdriver-manager")
             sys.exit(1)
     
-    def _formato_fecha(self, fecha):
-        """Convierte fecha a formato DD/MM/YYYY para el formulario"""
+    def _formato_fecha_digits(self, fecha):
+        """Convierte la fecha a dígitos continuos (DDMMYYYY) para inputs de fecha de Google Forms"""
         if not fecha:
             return ""
-        
         fecha_str = str(fecha).strip()
         
-        # Si ya es DD/MM, agregua año
-        if re.match(r"^\d{2}/\d{2}$", fecha_str):
-            return fecha_str + "/2026"
+        match = re.match(r"^(\d{2})/(\d{2})(?:/(\d{4}))?$", fecha_str)
+        if match:
+            d, m, y = match.groups()
+            if not y:
+                y = "2026"
+            return f"{d}{m}{y}"
         
-        # Si es DD/MM/YYYY, devuelve tal cual
-        if re.match(r"^\d{2}/\d{2}/\d{4}$", fecha_str):
-            return fecha_str
-        
-        # Si es YYYY-MM-DD (de Excel), convierte
         try:
             dt = datetime.strptime(fecha_str, "%Y-%m-%d")
-            return dt.strftime("%d/%m/%Y")
+            return dt.strftime("%d%m%Y")
         except:
             pass
         
-        return fecha_str
-    
-    def _esperar_elemento(self, by, value, timeout=10):
-        """Espera a que un elemento esté presente"""
-        try:
-            return WebDriverWait(self.driver, timeout).until(
-                EC.presence_of_element_located((by, value))
-            )
-        except Exception as e:
-            raise TimeoutError(f"Elemento no encontrado ({by}={value}): {e}")
-    
-    def _llenar_campo_texto(self, campo_label, valor):
-        """Llena un campo de texto del formulario"""
-        try:
-            # Busca el input asociado a este label
-            inputs = self.driver.find_elements(By.TAG_NAME, "input")
-            for inp in inputs:
-                if inp.get_attribute("type") in ["text", "email"]:
-                    inp.clear()
-                    inp.send_keys(valor)
-                    return True
-            
-            # Alternativa: busca textareas
-            textareas = self.driver.find_elements(By.TAG_NAME, "textarea")
-            for ta in textareas:
-                ta.clear()
-                ta.send_keys(valor)
-                return True
-            
-            return False
-        except Exception as e:
-            raise Exception(f"Error llenando '{campo_label}': {e}")
-    
-    def _llenar_dropdown(self, valor_esperado):
-        """Selecciona un valor en un dropdown"""
-        try:
-            selects = self.driver.find_elements(By.TAG_NAME, "select")
-            for select in selects:
-                try:
-                    select_obj = Select(select)
-                    select_obj.select_by_value(valor_esperado)
-                    return True
-                except:
-                    continue
-            
-            # Si no hay select HTML, intenta con material select
-            options = self.driver.find_elements(By.TAG_NAME, "div")
-            for opt in options:
-                if valor_esperado in opt.text:
-                    opt.click()
-                    return True
-            
-            return False
-        except Exception as e:
-            raise Exception(f"Error en dropdown: {e}")
-    
+        return re.sub(r"\D", "", fecha_str)
+
+    def _llenar_campo_por_texto(self, texto_pregunta, valor):
+        """Ubica el bloque de pregunta por su título y escribe en su input/textarea"""
+        if valor is None:
+            valor = ""
+        texto_lower = texto_pregunta.lower()
+        xpath_pregunta = (
+            "//div[contains(@role, 'listitem') or contains(@class, 'geS5ne')]"
+            "[.//span[contains("
+            "translate(normalize-space(string(.)), "
+            "'ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚ', "
+            "'abcdefghijklmnopqrstuvwxyzáéíóú'), "
+            f"\"{texto_lower}\")]]"
+        )
+        container = WebDriverWait(self.driver, 15).until(
+            EC.presence_of_element_located((By.XPATH, xpath_pregunta))
+        )
+        inp = container.find_element(By.XPATH, ".//input | .//textarea")
+        inp.clear()
+        inp.send_keys(str(valor))
+
+    def _seleccionar_dropdown_por_texto(self, texto_pregunta, valor_opcion):
+        """Abre un menú desplegable de Google Forms y selecciona una opción"""
+        texto_lower = texto_pregunta.lower()
+        xpath_pregunta = (
+            "//div[contains(@role, 'listitem') or contains(@class, 'geS5ne')]"
+            "[.//span[contains("
+            "translate(normalize-space(string(.)), "
+            "'ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚ', "
+            "'abcdefghijklmnopqrstuvwxyzáéíóú'), "
+            f"\"{texto_lower}\")]]"
+        )
+        container = WebDriverWait(self.driver, 15).until(
+            EC.presence_of_element_located((By.XPATH, xpath_pregunta))
+        )
+        
+        dropdown = container.find_element(By.XPATH, ".//div[@role='listbox']")
+        dropdown.click()
+        time.sleep(1)
+        
+        opcion = WebDriverWait(self.driver, 5).until(
+            EC.element_to_be_clickable((By.XPATH, f"//div[@role='option']//span[contains(text(), '{valor_opcion}')]"))
+        )
+        opcion.click()
+        time.sleep(0.5)
+
+    def _click_boton(self, texto_boton):
+        """Hace clic en un botón de Google Forms (div role='button') por su etiqueta de texto"""
+        xpath_btn = f"//div[@role='button'][.//span[contains(text(), '{texto_boton}')]]"
+        btn = WebDriverWait(self.driver, 8).until(
+            EC.element_to_be_clickable((By.XPATH, xpath_btn))
+        )
+        btn.click()
+        time.sleep(2)
+
     def enviar_registro(self, registro):
-        """Envía un registro al formulario"""
         import traceback
         try:
-            # Abre el formulario
             self.driver.get(self.url_forms)
+            time.sleep(3)
+
+            # --- SECCIÓN 1: Correo ---
+            self._llenar_campo_por_texto("correo", registro["correo"])
+            self._click_boton("Siguiente")
+
+            # --- SECCIÓN 2: Información del Evento ---
+            # 1. Nombre del proyecto
+            self._seleccionar_dropdown_por_texto("Nombre del proyecto", PROYECTO)
+            
+            # 2. Capacitación - Taller - Reunión - Evento (Nombre del evento)
+            self._llenar_campo_por_texto("Capacitación", registro["evento"])
+            
+            # 3. Fecha
+            fecha_digits = self._formato_fecha_digits(registro["fecha"])
+            self._llenar_campo_por_texto("Fecha", fecha_digits)
+            
+            # 4. Lugar / Enlace
+            self._llenar_campo_por_texto("Lugar / Enlace", registro["lugar"])
+            
+            # 5. Tipo de usuario
+            self._seleccionar_dropdown_por_texto("Tipo de usuario", TIPO_USUARIO)
+            
+            self._click_boton("Siguiente")
+
+            # --- SECCIÓN 3: Confirmación de Identidad ---
+            # 1. Documento de identidad
+            if registro.get("documento"):
+                self._llenar_campo_por_texto("Documento de identidad", registro["documento"])
+            
+            # 2. Correo UNAL
+            self._llenar_campo_por_texto("Correo UNAL", registro["correo"])
+
+            # Enviar formulario
+            self._click_boton("Enviar")
             time.sleep(2)
-
-            # Busca el campo de correo
-            correos = self.driver.find_elements(By.CSS_SELECTOR, "input[aria-label*='correo'], input[aria-label*='email']")
-            print(f"    🔍 Campos de correo encontrados: {len(correos)}")
-
-            if correos:
-                correos[0].clear()
-                correos[0].send_keys(registro["correo"])
-            else:
-                print(f"    ⚠️  No se encontró campo de correo")
-
-            # Busca botón "Siguiente" o similar y avanza
-            botones = self.driver.find_elements(By.TAG_NAME, "button")
-            print(f"    🔍 Botones encontrados: {len(botones)} -> {[b.text for b in botones]}")
-
-            siguiente_encontrado = False
-            for btn in botones:
-                if "siguiente" in btn.text.lower() or "next" in btn.text.lower():
-                    btn.click()
-                    siguiente_encontrado = True
-                    time.sleep(1.5)
-                    break
-                
-            if not siguiente_encontrado:
-                print(f"    ⚠️  No se encontró botón 'Siguiente'")
-
-            # Busca campos para nombre del evento
-            inputs_texto = self.driver.find_elements(By.CSS_SELECTOR, "input[type='text'], textarea")
-            print(f"    🔍 Inputs de texto encontrados: {len(inputs_texto)}")
-            idx = 0
-
-            # ... (resto del método igual)
-
-            # Envía el formulario
-            botones_envio = self.driver.find_elements(By.TAG_NAME, "button")
-            print(f"    🔍 Botones antes de enviar: {[b.text for b in botones_envio]}")
-
-            for btn in botones_envio:
-                if "enviar" in btn.text.lower() or "submit" in btn.text.lower():
-                    btn.click()
-                    time.sleep(2)
-                    return True
-
-            print(f"    ⚠️  No se encontró botón 'Enviar'")
-            return False
+            return True
 
         except Exception as e:
             print(f"    💥 EXCEPCIÓN: {type(e).__name__}: {e}")
             traceback.print_exc()
-            # Screenshot para ver exactamente qué estaba en pantalla al fallar
             try:
                 screenshot_path = f"error_fila_{registro['fila']}.png"
                 self.driver.save_screenshot(screenshot_path)
@@ -319,7 +288,6 @@ class AutomatizadorForms:
             return False
     
     def procesar_lote(self, registros, nombre_estudiante):
-        """Procesa un lote de registros"""
         print(f"\n📋 Procesando {len(registros)} registros...\n")
         
         for i, registro in enumerate(registros, 1):
@@ -332,14 +300,12 @@ class AutomatizadorForms:
                 self.registros_fallidos += 1
                 print(f"    ❌ Error al enviar")
             
-            # Pequeña pausa entre registros
             time.sleep(1)
         
         self._generar_log(nombre_estudiante)
         self.cerrar()
     
     def _generar_log(self, nombre_estudiante):
-        """Genera archivo de log con resultados"""
         with open(LOG_FILE, "w", encoding="utf-8") as f:
             f.write("=" * 60 + "\n")
             f.write("LOG DE ENVÍO - ASISTENCIA A REUNIONES\n")
@@ -364,15 +330,12 @@ class AutomatizadorForms:
         print(f"\n📄 Log guardado en: {LOG_FILE}")
     
     def cerrar(self):
-        """Cierra el navegador"""
         if self.driver:
             self.driver.quit()
 
 def main():
     if len(sys.argv) < 2:
         print("Uso: python3 enviar_asistencia.py <URL_FORMS>")
-        print("\nEjemplo:")
-        print("  python3 enviar_asistencia.py 'https://docs.google.com/forms/d/e/...'")
         sys.exit(1)
     
     url_forms = sys.argv[1]
@@ -382,7 +345,6 @@ def main():
     print("=" * 60 + "\n")
     
     try:
-        # Paso 1: Leer Excel
         print("📁 Leyendo Excel...")
         lector = LectorExcel(EXCEL_FILE)
         nombre_estudiante = lector.obtener_nombre_estudiante()
@@ -396,33 +358,26 @@ def main():
         
         print(f"✅ Se encontraron {len(registros)} registros de asistencia")
         
-        # Paso 2: Validar datos
         print("\n🔍 Validando datos...")
         validador = ValidadorDatos()
         
         for registro in registros:
-            # Valida fecha
             valido, msg = validador.validar_fecha(registro["fecha"])
             if not valido:
                 print(f"❌ Fila {registro['fila']}: {msg}")
                 sys.exit(1)
             
-            # Valida correo
             valido, msg = validador.validar_correo(registro["correo"])
             if not valido:
                 print(f"❌ Fila {registro['fila']}: {msg}")
                 sys.exit(1)
             
-            # Valida documento
             if registro.get("documento"):
                 valido, msg = validador.validar_documento(registro["documento"])
                 if not valido:
                     print(f"❌ Fila {registro['fila']}: {msg}")
                     sys.exit(1)
-            else:
-                print(f"⚠️  Fila {registro['fila']}: Documento vacío (se enviará sin él)")
             
-            # Valida textos
             valido, msg = validador.validar_texto(registro["evento"], "Nombre del Evento")
             if not valido:
                 print(f"❌ Fila {registro['fila']}: {msg}")
@@ -435,12 +390,10 @@ def main():
         
         print("✅ Todos los datos son válidos\n")
         
-        # Paso 3: Procesar con Selenium
         print(f"🌐 Abriendo Forms: {url_forms[:60]}...\n")
         automatizador = AutomatizadorForms(url_forms)
         automatizador.procesar_lote(registros, nombre_estudiante)
         
-        # Resumen final
         print("\n" + "=" * 60)
         print("RESUMEN FINAL")
         print("=" * 60)
@@ -450,15 +403,6 @@ def main():
         print(f"📄 Log: {LOG_FILE}")
         print("=" * 60 + "\n")
     
-    except FileNotFoundError as e:
-        print(f"❌ {e}")
-        sys.exit(1)
-    except ValueError as e:
-        print(f"❌ {e}")
-        sys.exit(1)
-    except KeyboardInterrupt:
-        print("\n\n⏹️  Proceso cancelado por el usuario")
-        sys.exit(0)
     except Exception as e:
         print(f"\n❌ Error inesperado: {e}")
         import traceback
